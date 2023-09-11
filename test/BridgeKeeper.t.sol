@@ -100,7 +100,8 @@ contract BridgeKeeperTest is SetupTest {
             assertLt(bridgeBalance(), balance);
             assertEq(claimable(), 0);
             assertGt(bridge.investedAmount(dai), invested );
-            assertEq(balance - bridgeBalance(), bridge.investedAmount(dai) - invested + claimable());
+            assertEq(bridge.minCashThreshold(dai), bridgeBalance());
+            assertEq(bridge.investedAmount(dai) - invested, balance - bridgeBalance() + interest);
         }
         else{
             vm.expectEmit();
