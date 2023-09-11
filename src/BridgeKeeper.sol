@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: agpl-v3
 pragma solidity ^0.8.19;
 
 import {IXDaiForeignBridge} from "./interfaces/IXDaiForeignBridge.sol";
