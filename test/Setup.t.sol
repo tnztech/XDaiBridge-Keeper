@@ -11,8 +11,8 @@ import "../src/interfaces/IXDaiForeignBridge.sol";
 
 contract SetupTest is Test {
 
-    address public initializer = address(15);
-    address public manager = address(16);
+    address public initializer = address(17);
+    address public manager = address(18);
     address public dai;
     address public bridgeAddress = 0x8659Cf2273438f9b5C1Eb367Def45007a7A16a24;
     IXDaiForeignBridge public bridge;

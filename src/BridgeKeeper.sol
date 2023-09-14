@@ -50,7 +50,7 @@ contract BridgeKeeper {
 
     function setRefillThreshold(uint256 _amount) external onlyManager {
         require(
-            _amount < bridge.minCashThreshold(dai),
+            _amount <= bridge.minCashThreshold(dai),
             "Higher than minCashThreshold"
         );
         refillThreshold = _amount;
