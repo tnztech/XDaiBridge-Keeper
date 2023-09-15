@@ -1,10 +1,10 @@
 #!/bin/bash
-
+#!/bin/sh
 # The command you want to schedule
-command="cd /home/luigy/Programming/gnosis/xdaibridge-keeper & make run-keeper"
+command="/bin/bash  /home/luigy/Programming/gnosis/xdaibridge-keeper/runCronjob.sh"
 
-# The cron schedule expression for every hour
-schedule="0 * * * *"
+# The cron schedule expression for every 2 minutes
+schedule="*/2 * * * *"
 
 # Write out current crontab
 crontab -l > mycron

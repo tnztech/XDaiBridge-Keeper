@@ -11,7 +11,7 @@ import "../src/interfaces/IMultiSendCallOnly.sol";
 contract SetupTest is Test {
     address public initializer = address(17);
     address public dai;
-    address public bridgeAddress = 0x8659Cf2273438f9b5C1Eb367Def45007a7A16a24;
+    address public bridgeAddress = vm.envAddress("BRIDGE_ADDR");
     IXDaiForeignBridge public bridge;
     uint256 public globalTime;
 
