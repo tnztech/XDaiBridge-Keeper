@@ -7,11 +7,9 @@ import "../src/interfaces/IMultiSendCallOnly.sol";
 import "forge-std/interfaces/IERC20.sol";
 
 contract KeeperOperatorScript is Script {
-
     IMultiSendCallOnly multisend;
     IXDaiForeignBridge bridge;
     address dai;
-
 
     function run() external {
         /*//////////////////////////////////////////////////////////////
@@ -30,7 +28,7 @@ contract KeeperOperatorScript is Script {
         address bridgeAddr = vm.envAddress("BRIDGE_ADDR");
         uint256 investThreshold = vm.envUint("INVEST_THRESHOLD");
         uint256 refillThreshold = vm.envUint("REFILL_THRESHOLD");
-        
+
         multisend = IMultiSendCallOnly(0x40A2aCCbd92BCA938b02010E17A5b8929b49130D);
         bridge = IXDaiForeignBridge(bridgeAddr);
         dai = bridge.erc20token();
@@ -63,7 +61,7 @@ contract KeeperOperatorScript is Script {
 
         vm.stopBroadcast();
     }
- 
+
     function claimable() public view returns (uint256) {
         return (bridge.interestAmount(dai) >= bridge.minInterestPaid(dai)) ? bridge.interestAmount(dai) : 0;
     }

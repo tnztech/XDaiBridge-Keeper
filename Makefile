@@ -3,7 +3,7 @@
 # (-include to ignore error if it does not exist)
 -include .env
 
-install	:; curl -L https://foundry.paradigm.xyz | bash && foundryup
+install	:; curl -L https://foundry.paradigm.xyz | bash && foundryup | npm install -g pm2
 
 update :; forge update
 
@@ -14,4 +14,6 @@ tests	:; forge test --fork-url goerli -vvv
 
 run-keeper :; forge script script/KeeperOperator.s.sol --rpc-url goerli --broadcast
 
-cronjob :; chmod +x runCronjob.sh setupCronjob.sh | ./setupCronjob.sh
+automatic :; pm2 start pm2_worker.json
+
+clear-logs :; pm2 flush Keeper
