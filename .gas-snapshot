@@ -1,0 +1,5 @@
+GastTest:testDirect_Claim() (gas: 82570)
+GastTest:testMulticall_ClaimAndInvest() (gas: 368948)
+GastTest:testMulticall_ClaimAndRefill() (gas: 335298)
+GastTest:testMultisend_ClaimAndInvest() (gas: 366265)
+GastTest:testMultisend_ClaimAndRefill() (gas: 331945)

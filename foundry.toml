@@ -4,7 +4,7 @@ out = "out"
 test = "test"
 libs = ["lib"]
 optimizer = true
-optimizer-runs = 2_000
+optimizer-runs = 5_000
 
 
 [rpc_endpoints]
@@ -21,3 +21,4 @@ chiado={key="${ETHERSCAN_API_KEY_GNOSIS}",chainId=10200}
 goerli={key="${ETHERSCAN_API_KEY_MAINNET}",chainId=5}
 
 [fuzz]
+runs=2500

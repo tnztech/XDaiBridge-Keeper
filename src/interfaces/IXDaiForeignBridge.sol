@@ -86,4 +86,3 @@ interface IXDaiForeignBridge {
     function withinExecutionLimit(uint256 _amount) external view returns (bool);
     function withinLimit(uint256 _amount) external view returns (bool);
 }
-
