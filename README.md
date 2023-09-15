@@ -10,14 +10,14 @@ The Makefile has all the relevant commands
 ### Build
 
 ```shell
-Install Foundry
-$ make install
-Update Foundry dependencies 
-$ make update
-Run the maintenance scripts manually to make sure it's ready for setting up the cronjob
-$ make run-keeper
-Setup the cronjob - Note this gives executable permissions to setupCronjob and runCronjob!
-$ make cronjob
+# Install Foundry
+make install
+# Update Foundry dependencies 
+make update
+# Run the maintenance scripts manually to make sure it's ready for setting up the cronjob
+make run-keeper
+# Setup the cronjob - Note this gives executable permissions to setupCronjob and runCronjob!
+make cronjob
 ```
 
 ### Test
