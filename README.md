@@ -1,66 +1,25 @@
-## Foundry
+## XDai Bridge Keeper
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
-
-Foundry consists of:
-
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
-
-https://book.getfoundry.sh/
+**This is a repo dedicated to maintenance of the XDai Bridge on Goerli and Mainnet**
+**It has the ability to refill it, invest DAI into the sDAI vault, and to relay interest to Gnosis Chain**
 
 ## Usage
+
+The Makefile has all the relevant commands
 
 ### Build
 
 ```shell
-$ forge build
+Install Foundry
+$ make install
+Update Foundry dependencies 
+$ make update
+Run the maintenance scripts manually to make sure it's ready for setting up the cronjob
+$ make run-keeper
+Setup the cronjob - Note this gives executable permissions to setupCronjob and runCronjob!
+$ make cronjob
 ```
 
 ### Test
 
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+Use the goerli branch and test against the goerli bridge. Make sure that the cronjob is working by tracking the bridge address on goerli.etherscan.io. 

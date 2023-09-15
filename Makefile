@@ -14,4 +14,4 @@ tests	:; forge build --fork-url goerli -vvv
 
 run-keeper :; forge script script/KeeperOperator.s.sol --rpc-url goerli --broadcast
 
-cronjob :; ./setupCronjob.sh
+cronjob :; chmod +x runCronjob.sh setupCronjob.sh | ./setupCronjob.sh
