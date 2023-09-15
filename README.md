@@ -14,10 +14,10 @@ The Makefile has all the relevant commands
 make install
 # Update Foundry dependencies 
 make update
-# Run the maintenance scripts manually to make sure it's ready for setting up the cronjob
+# Run the maintenance scripts manually to make sure it's ready for setting up the automation
 make run-keeper
-# Setup the cronjob - Note this gives executable permissions to setupCronjob and runCronjob!
-make cronjob
+# Setup the worker - pm2 can be monitored by calling "pm2 logs"
+make automatic
 ```
 
 ### Test
