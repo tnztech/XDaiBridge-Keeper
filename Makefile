@@ -10,7 +10,7 @@ update :; forge update
 # Build & test
 build  :; forge build --sizes
 
-tests	:; forge build --fork-url goerli -vvv
+tests	:; forge test --fork-url mainnet -vvv
 
 run-keeper :; forge script script/KeeperOperator.s.sol --rpc-url goerli --broadcast
 
