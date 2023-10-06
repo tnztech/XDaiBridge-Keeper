@@ -11,7 +11,7 @@ contract KeeperOperatorScript is Script {
     IXDaiForeignBridge bridge;
     address dai;
 
-    function run() external {
+    function run() external returns (string memory TX_LOG, uint256 amountRelayed) {
         /*//////////////////////////////////////////////////////////////
                                 KEY MANAGEMENT
         //////////////////////////////////////////////////////////////*/
@@ -28,6 +28,7 @@ contract KeeperOperatorScript is Script {
         address bridgeAddr = vm.envAddress("BRIDGE_ADDR");
         uint256 investThreshold = vm.envUint("INVEST_THRESHOLD");
         uint256 refillThreshold = vm.envUint("REFILL_THRESHOLD");
+        uint256 claimThreshold = vm.envUint("CLAIM_THRESHOLD");
 
         multisend = IMultiSendCallOnly(0x40A2aCCbd92BCA938b02010E17A5b8929b49130D);
         bridge = IXDaiForeignBridge(bridgeAddr);
@@ -37,28 +38,47 @@ contract KeeperOperatorScript is Script {
                                 OPERATIONS
         //////////////////////////////////////////////////////////////*/
 
-        uint256 amount = claimable();
         uint256 balance = IERC20(dai).balanceOf(address(bridge));
-        require(amount > 0, "Not claimable");
+        uint256 amountClaimable = claimable();
+        uint256 minInterestClaimed = bridge.minInterestPaid(dai);
+        uint256 minCashThreshold = bridge.minCashThreshold(dai);
 
-        vm.startBroadcast(deployerPrivateKey);
+        // ENV VARIABLE VALIDITY CHECKS
+        if (refillThreshold > minCashThreshold) return ("REFILL_THRESHOLD must be Lower", 0);
+        else if (investThreshold < minCashThreshold) return ("INVEST_THRESHOLD must be Higher", 0);
+        else if (claimThreshold > minCashThreshold) return ("CLAIM_THRESHOLD must be Lower", 0);
+        // THRESHOLD CHECKS
+        else if (amountClaimable < bridge.minPerTx()) return ("Claimable amount below bridgeTx Limit", 0);
+        else if (amountClaimable < minInterestClaimed) return ("Claimable amount below minInterest Limit", 0);
+        else if (claimThreshold > amountClaimable) return ("Claimable amount lower than CLAIM_THRESHOLD", 0);
+
+        amountClaimable = (amountClaimable > bridge.maxPerTx()) ? bridge.maxPerTx() : amountClaimable;
+        // Initial Logging
+
         address operator = vm.rememberKey(deployerPrivateKey);
         console2.log("Operator address: %s", address(operator));
+        console2.log("Amount available to claim: %e", amountClaimable);
+        console2.log("Amount of DAI in the bridge: %e", balance);
 
-        if (amount > 0) {
-            if (balance > investThreshold) {
-                claimAndInvest();
-                console2.log("Claimed and Invested");
-            } else if (balance < refillThreshold) {
-                claimAndRefill();
-                console2.log("Claimed and Refilled");
-            } else {
-                bridge.payInterest(dai, 1000000 ether);
-                console2.log("Just Claimed");
-            }
-            console2.log("Relaying %e DAI to Gnosis Chain", amount + bridge.minInterestPaid(dai));
+        // Action Selection
+
+        vm.startBroadcast(deployerPrivateKey);
+
+        // If balance is high enough to invest... claim and invest
+        if (balance > investThreshold) {
+            claimAndInvest();
+            return ("Invested and Relayed DAI", amountClaimable);
         }
-
+        // If balance is low enough and we should refill... claim and refill
+        else if (balance < refillThreshold) {
+            claimAndRefill();
+            return ("Refilled and Relayed DAI:", amountClaimable);
+        }
+        // If balance is neither good for claim or refill - claim if amount claimable higher than the claimThreshold
+        else if (amountClaimable > claimThreshold) {
+            bridge.payInterest(dai, amountClaimable);
+            return ("Simply Relayed DAI", amountClaimable);
+        }
         vm.stopBroadcast();
     }
 

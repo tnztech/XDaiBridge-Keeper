@@ -14,6 +14,12 @@ tests	:; forge test --fork-url mainnet -vvv
 
 run-keeper :; forge script script/KeeperOperator.s.sol --rpc-url mainnet --broadcast
 
-automatic :; pm2 start pm2_worker.json
+run-keeper-simple :; forge script script/KeeperOperator.s.sol --rpc-url mainnet --broadcast | grep '^TX_LOG'
+
+worker-test :; bash ./worker.sh
+
+automated :; pm2 start pm2_worker.json
+
+kill :; pm2 kill
 
 clear-logs :; pm2 flush Keeper
