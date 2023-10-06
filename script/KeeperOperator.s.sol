@@ -43,12 +43,14 @@ contract KeeperOperatorScript is Script {
         uint256 minInterestClaimed = bridge.minInterestPaid(dai);
         uint256 minCashThreshold = bridge.minCashThreshold(dai);
 
-        // ENV VARIABLE and LIMIT CHECKS
-        if (refillThreshold > minCashThreshold) return ("REFILL_THRESHOLD must be lower", 0);
-        else if (investThreshold < minCashThreshold) return ("INVEST_THRESHOLD must be lower", 0);
-        else if (claimThreshold > minCashThreshold) return ("CLAIM_THRESHOLD must be lower", 0);
-        else if (amountClaimable < minInterestClaimed) return ("Claimable amount too low", 0);
-        else if (amountClaimable < bridge.minPerTx()) return ("Claimable amount too low", 0);
+        // ENV VARIABLE VALIDITY CHECKS
+        if (refillThreshold > minCashThreshold) return ("REFILL_THRESHOLD must be Lower", 0);
+        else if (investThreshold < minCashThreshold) return ("INVEST_THRESHOLD must be Higher", 0);
+        else if (claimThreshold > minCashThreshold) return ("CLAIM_THRESHOLD must be Lower", 0);
+        // THRESHOLD CHECKS
+        else if (amountClaimable < bridge.minPerTx()) return ("Claimable amount below bridgeTx Limit", 0);
+        else if (amountClaimable < minInterestClaimed) return ("Claimable amount below minInterest Limit", 0);
+        else if (claimThreshold > amountClaimable) return ("Claimable amount lower than CLAIM_THRESHOLD", 0);
 
         amountClaimable = (amountClaimable > bridge.maxPerTx()) ? bridge.maxPerTx() : amountClaimable;
         // Initial Logging

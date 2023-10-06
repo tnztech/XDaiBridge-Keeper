@@ -14,7 +14,11 @@ tests	:; forge test --fork-url goerli -vvv
 
 run-keeper :; forge script script/KeeperOperator.s.sol --rpc-url goerli --broadcast
 
-automatic :; pm2 start pm2_worker.json
+run-keeper-simple :; forge script script/KeeperOperator.s.sol --rpc-url goerli --broadcast | grep '^TX_LOG'
+
+worker-test :; bash ./worker.sh
+
+automated :; pm2 start pm2_worker.json
 
 kill :; pm2 kill
 

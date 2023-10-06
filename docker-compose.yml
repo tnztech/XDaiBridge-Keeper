@@ -6,7 +6,7 @@ services:
     container_name: app
     env_file:
       - .env  # Specify the path to your .env file
-    command: ["make automatic && pm2 logs"]
+    command: ["make automated && pm2 logs"]
     volumes:
       - ./broadcast:/app/broadcast
       - ./cache:/app/cache
