@@ -10,16 +10,41 @@ The Makefile has all the relevant commands
 ### Build
 
 ```shell
-Install Foundry
+# Install Foundry
 $ make install
-Update Foundry dependencies 
+# Update Foundry dependencies 
 $ make update
-Run the maintenance scripts manually to make sure it's ready for setting up the automation
+# Run the maintenance scripts manually to make sure it's ready for setting up the automation
 $ make run-keeper
-Setup the worker - pm2 can be monitored by calling "pm2 logs"
+# Setup the worker - pm2 can be monitored by calling "pm2 logs"
 $ make automatic
+```
+
+### Docker 
+
+- To run the keeper in docker container, follow the below steps!
+
+- Create `.env`
+
+- Start
+
+```sh
+docker compose up --build -d
+```
+
+- Logs
+
+```sh
+docker compose logs -f
+```
+
+- Stop
+
+```sh
+docker compose down
 ```
 
 ### Test
 
 Use the goerli branch and test against the goerli bridge. Make sure that the cronjob is working by tracking the bridge address on goerli.etherscan.io. 
+
