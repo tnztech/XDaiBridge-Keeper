@@ -16,4 +16,6 @@ run-keeper :; forge script script/KeeperOperator.s.sol --rpc-url goerli --broadc
 
 automatic :; pm2 start pm2_worker.json
 
+kill :; pm2 kill
+
 clear-logs :; pm2 flush Keeper
