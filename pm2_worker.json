@@ -4,7 +4,7 @@
       "name": "Keeper",
       "script": "./worker.sh",
       "autorestart": false,
-      "cron_restart": "*/10 * * * *"
+      "cron_restart": "*/30 * * * *"
     }
   ]
 }
